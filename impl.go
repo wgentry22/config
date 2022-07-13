@@ -24,11 +24,7 @@ func (v *viperConfigImpl) Get(key string, structPtr interface{}) error {
 // Init initializes a config.Interface using the provided config.Option's
 // An error is returned when there is an issue reading in the configuration
 func Init(options ...Option) (Interface, error) {
-  o := defaultOptions()
-
-  for _, option := range options {
-    option(o)
-  }
+  o := defaultOptions(options...)
 
   runtimeViper := viper.New()
   runtimeViper.SetConfigType(o.configExtension)

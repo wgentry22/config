@@ -39,14 +39,20 @@ func (o *Options) Error() string {
 // Option functions allow for customization of the associated Options
 type Option func(*Options)
 
-func defaultOptions() *Options {
-  return &Options{
+func defaultOptions(options ...Option) *Options {
+  o := &Options{
     configName:      defaultConfigName,
     configExtension: defaultConfigExtension,
     configPaths:     []string{defaultConfigPath},
     reader:          nil,
     hooks:           []mapstructure.DecodeHookFunc{},
   }
+
+  for _, option := range options {
+    option(o)
+  }
+
+  return o
 }
 
 // Name is an Option that sets the name of the configuration file to search for
