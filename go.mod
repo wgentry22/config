@@ -1,4 +1,4 @@
-module config
+module github.com/wgentry22/config
 
 go 1.18
 
