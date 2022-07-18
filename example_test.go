@@ -5,8 +5,8 @@
 package config_test
 
 import (
-  "config"
   "fmt"
+  "github.com/wgentry22/config"
   "strings"
 )
 

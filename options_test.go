@@ -87,7 +87,7 @@ func (o *OptionsTestSuite) TestHooksOption() {
   option := Hooks(additionalHooks...)
 
   opt := defaultOptions(option)
-  require.Equal(o.T(), len(opt.hooks), len(additionalHooks))
+  require.Equal(o.T(), len(opt.hooks), len(additionalHooks) + len(allHooks))
 }
 
 func (o *OptionsTestSuite) TestHooksOption_WhenProvidedHooksIsEmpty() {
@@ -96,7 +96,7 @@ func (o *OptionsTestSuite) TestHooksOption_WhenProvidedHooksIsEmpty() {
   option := Hooks(additionalHooks...)
 
   opt := defaultOptions(option)
-  require.Equal(o.T(), len(opt.hooks), 0)
+  require.Equal(o.T(), len(opt.hooks), len(allHooks))
 }
 
 func TestOptionsTestSuite(t *testing.T) {

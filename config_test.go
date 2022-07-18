@@ -5,9 +5,9 @@
 package config_test
 
 import (
-  "config"
   "github.com/stretchr/testify/require"
   "github.com/stretchr/testify/suite"
+  "github.com/wgentry22/config"
   "strings"
   "testing"
 )

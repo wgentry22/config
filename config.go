@@ -49,7 +49,7 @@ func defaultOptions(options ...Option) *Options {
     configExtension: defaultConfigExtension,
     configPaths:     []string{defaultConfigPath},
     reader:          nil,
-    hooks:           []mapstructure.DecodeHookFunc{},
+    hooks:           allHooks,
   }
 
   for _, option := range options {
