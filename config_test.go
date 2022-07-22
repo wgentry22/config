@@ -131,6 +131,18 @@ func (c *ConfigTestSuite) TestGetReturnsError_WhenNoStructPointerProvided() {
   require.Equal(c.T(), err.Error(), expected)
 }
 
+func (c *ConfigTestSuite) TestKeys() {
+  expected := []string{"db", "logger", "mq", "metrics", "healthz"}
+  options := append(c.defaultOptions, config.Name("keys"), config.Extension("yaml"))
+
+  conf, err := config.Init(options...)
+  require.Nil(c.T(), err)
+  require.NotNil(c.T(), conf)
+
+  keys := conf.Keys()
+  require.ElementsMatch(c.T(), expected, keys)
+}
+
 func TestConfigTestSuite(t *testing.T) {
   suite.Run(t, new(ConfigTestSuite))
 }

@@ -1,0 +1,10 @@
+db:
+  property: true
+logger:
+  property: true
+mq:
+  property: true
+metrics:
+  property: true
+healthz:
+  property: true

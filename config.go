@@ -20,6 +20,8 @@ const (
 type Interface interface {
   // Get fills the structPtr with configuration values found at key
   Get(key string, structPtr interface{}) error
+  // Keys returns the top level keys of the configuration data
+  Keys() []string
 }
 
 // Options represents the information required to create an Interface instance

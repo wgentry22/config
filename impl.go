@@ -9,11 +9,13 @@ import (
   "github.com/mitchellh/mapstructure"
   "github.com/spf13/viper"
   "reflect"
+  "strings"
 )
 
 type viperConfigImpl struct {
   runtimeViper  *viper.Viper
   decoderConfig viper.DecoderConfigOption
+  topLevelKeys  []string
 }
 
 // Get implements config.Interface#Get
@@ -23,6 +25,11 @@ func (v *viperConfigImpl) Get(key string, structPtr interface{}) error {
   }
 
   return v.runtimeViper.UnmarshalKey(key, structPtr, v.decoderConfig)
+}
+
+// Keys implements config.Interface#Keys
+func (v *viperConfigImpl) Keys() []string {
+  return v.topLevelKeys
 }
 
 // Init initializes a config.Interface using the provided config.Option's
@@ -48,11 +55,30 @@ func Init(options ...Option) (Interface, error) {
     }
   }
 
+  setOfKeys := make(map[string]bool)
+
+  for _, key := range runtimeViper.AllKeys() {
+    if strings.Contains(key, ".") {
+      split := strings.Split(key, ".")
+      k := split[0]
+      if _, ok := setOfKeys[k]; !ok {
+        setOfKeys[k] = true
+      }
+    }
+  }
+
+  topLevelKeys := make([]string, 0, len(setOfKeys))
+
+  for key := range setOfKeys {
+    topLevelKeys = append(topLevelKeys, key)
+  }
+
   decoderConfig := viper.DecodeHook(mapstructure.ComposeDecodeHookFunc(o.hooks...))
 
   return &viperConfigImpl{
     runtimeViper:  runtimeViper,
     decoderConfig: decoderConfig,
+    topLevelKeys:  topLevelKeys,
   }, nil
 }
 
